@@ -1,0 +1,5 @@
+const applicationID = "";
+const serverURL = "";
+
+window.applicationID = applicationID;
+window.serverURL = serverURL;
