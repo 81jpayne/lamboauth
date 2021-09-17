@@ -2,14 +2,15 @@
   <head>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+		<script src="config.js"></script>
   </head>
   <body>
     <button onclick="main()">LamboAuth</button>
     <button>Log out</button>
     <script>
 
-      Moralis.initialize("obNM0alsTEn4ZUjMXCyTeJ1himTnekZyZbESIMWV");
-      Moralis.serverURL = "https://7pi1yb5yxmgd.grandmoralis.com:2053/server";
+      Moralis.initialize(applicationID);
+      Moralis.serverURL = serverURL;
 
 			var ethAddress;
 			var nfts;
@@ -17,7 +18,7 @@
 			login = async () => {
 				await Moralis.Web3.authenticate().then(function (user) {
 					ethAddress = user.get("ethAddress");
-					console.log(ethAddress); //
+					console.log(ethAddress);
 				});
 			}
 
@@ -27,12 +28,17 @@
 					address: ethAddress
 				};
 				nfts = await Moralis.Web3.getNFTs(options);
-				console.log(nfts); //
+				console.log(nfts);
+			}
+
+			lamboAuth = async () => {
+				;
 			}
 
 			main = async () => {
 				await login();
 				await getNFTsOfUser();
+				await lamboAuth();
 			}
 
     </script>
