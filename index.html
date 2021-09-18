@@ -1,16 +1,16 @@
 <html>
-  <head>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+		<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 		<script src="config.js"></script>
-  </head>
-  <body>
-    <button onclick="main()">LamboAuth</button>
-    <button>Log out</button>
-    <script>
+	</head>
+	<body>
+		<button onclick="main()">LamboAuth</button>
+		<button>Log out</button>
+		<script>
 
-      Moralis.initialize(applicationID);
-      Moralis.serverURL = serverURL;
+			Moralis.initialize(applicationID);
+			Moralis.serverURL = serverURL;
 
 			var ethAddress;
 			var nfts;
@@ -41,6 +41,6 @@
 				await lamboAuth();
 			}
 
-    </script>
-  </body>
+		</script>
+	</body>
 </html>
