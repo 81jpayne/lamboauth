@@ -1,5 +1,5 @@
-const applicationID = "";
-const serverURL = "";
+const applicationID = "Moralis application ID here";
+const serverURL = "Moralis server URL here";
 
 window.applicationID = applicationID;
 window.serverURL = serverURL;
