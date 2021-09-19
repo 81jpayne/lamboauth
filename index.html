@@ -6,38 +6,49 @@
 	</head>
 	<body>
 		<button onclick="main()">LamboAuth</button>
-		<button>Log out</button>
 		<script>
 
 			Moralis.initialize(applicationID);
 			Moralis.serverURL = serverURL;
 
-			var ethAddress;
-			var nfts;
+			var userAddress = "";
+			var nfts = [];
 
 			login = async () => {
-				await Moralis.Web3.authenticate().then(function (user) {
-					ethAddress = user.get("ethAddress");
-					console.log(ethAddress);
-				});
+				const user = await Moralis.Web3.authenticate({signingMessage: "LamboAuth"});
+				userAddress = await user.get("ethAddress");
+				console.log(userAddress);
 			}
 
-			getNFTsOfUser = async () => {
-				const options = {
+			getNFTsOfContract = async () => {
+				var options = {
 					chain: "eth",
-					address: ethAddress
+					offset: 0,
+					order: "token_id.ASC",
+					address: "0xda9f43015749056182352e9dc6d3ee0b6293d80a"
 				};
-				nfts = await Moralis.Web3.getNFTs(options);
+				var currentNFTs = [];
+				for (; options["offset"] < 2000; options["offset"] += 500) {
+					currentNFTs = await Moralis.Web3API.token.getNFTOwners(options);
+					currentNFTs = currentNFTs["result"];
+					nfts = await nfts.concat(currentNFTs);
+				}
 				console.log(nfts);
 			}
 
 			lamboAuth = async () => {
-				;
+				for (var i = 0; i < nfts.length; i++) {
+					if (nfts[i]["owner_of"] === userAddress) {
+						window.location.href = "https://lamboauth.eldc.co/success.html";
+						return;
+					}
+				}
+				window.location.href = "https://lamboauth.eldc.co/failure.html"
 			}
 
 			main = async () => {
 				await login();
-				await getNFTsOfUser();
+				await getNFTsOfContract();
 				await lamboAuth();
 			}
 
