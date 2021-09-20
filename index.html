@@ -37,11 +37,9 @@
 			}
 
 			lamboAuth = async () => {
-				for (var i = 0; i < nfts.length; i++) {
-					if (nfts[i]["owner_of"] === userAddress) {
-						window.location.href = "https://lamboauth.eldc.co/success.html";
-						return;
-					}
+				if (nfts.some(e => e["owner_of"] === userAddress)) {
+					window.location.href = "https://lamboauth.eldc.co/success.html";
+					return;
 				}
 				window.location.href = "https://lamboauth.eldc.co/failure.html"
 			}
