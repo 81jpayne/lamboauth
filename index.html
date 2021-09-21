@@ -15,7 +15,9 @@
 			var nfts = [];
 
 			login = async () => {
-				const user = await Moralis.Web3.authenticate({signingMessage: "LamboAuth"});
+				const user = await Moralis.Web3.authenticate({
+					signingMessage: "LamboAuth"
+				});
 				userAddress = await user.get("ethAddress");
 				console.log(userAddress);
 			}
@@ -37,7 +39,7 @@
 			}
 
 			lamboAuth = async () => {
-				if (nfts.some(e => e["owner_of"] === userAddress)) {
+				if (await nfts.some(e => e["owner_of"] === userAddress)) {
 					window.location.href = "https://lamboauth.eldc.co/success.html";
 					return;
 				}
