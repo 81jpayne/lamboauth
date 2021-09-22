@@ -8,18 +8,17 @@
 		<button onclick="main()">LamboAuth</button>
 		<script>
 
-			Moralis.initialize(applicationID);
+			Moralis.initialize(applicationID); // https://docs.moralis.io/moralis-server/getting-started/quick-start#initialize-moralis
 			Moralis.serverURL = serverURL;
 
 			var userAddress = "";
 			var nfts = [];
 
 			login = async () => {
-				const user = await Moralis.Web3.authenticate({
-					signingMessage: "LamboAuth"
+				const user = await Moralis.Web3.authenticate({ // https://docs.moralis.io/moralis-server/users/crypto-login#metamask
+					signingMessage: "LamboAuth" // https://docs.moralis.io/moralis-server/users/crypto-login#changing-sign-in-message
 				});
-				userAddress = await user.get("ethAddress");
-				console.log(userAddress);
+				userAddress = await user.get("ethAddress"); // Get the user's address.
 			}
 
 			getNFTsOfContract = async () => {
@@ -27,19 +26,18 @@
 					chain: "eth",
 					offset: 0,
 					order: "token_id.ASC",
-					address: "0xda9f43015749056182352e9dc6d3ee0b6293d80a"
+					address: "0xda9f43015749056182352e9dc6d3ee0b6293d80a" // The contract's address
 				};
 				var currentNFTs = [];
-				for (; options["offset"] < 2000; options["offset"] += 500) {
-					currentNFTs = await Moralis.Web3API.token.getNFTOwners(options);
+				for (; options["offset"] < 2000; options["offset"] += 500) { // Run the code below four times as getNFTOwners() returns only 500 lambos at a time.
+					currentNFTs = await Moralis.Web3API.token.getNFTOwners(options); // https://docs.moralis.io/moralis-server/web3-sdk/token#getnftowners
 					currentNFTs = currentNFTs["result"];
-					nfts = await nfts.concat(currentNFTs);
+					nfts = await nfts.concat(currentNFTs); // Add the current set of 500 lambos to the total set.
 				}
-				console.log(nfts);
 			}
 
 			lamboAuth = async () => {
-				if (await nfts.some(e => e["owner_of"] === userAddress)) {
+				if (await nfts.some(e => e["owner_of"] === userAddress)) { // Check if the user is the owner of a lambo.
 					window.location.href = "https://lamboauth.eldc.co/success.html";
 					return;
 				}
